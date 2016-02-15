@@ -12,4 +12,4 @@ run: kernel
 	cd ../bochs/ && ./run_bochs.sh
 
 clean:
-	rm -f -r *.o kernel.elf ../iso/os.iso
+	rm -f -r *.o kernel.elf ../iso/os.iso ../bochs/bochslog.txt
