@@ -1,9 +1,6 @@
-#ifndef FB_H
-#define FB_H
+#include "fb.h"
 
-//frame buffer base address
-extern char * fb;
-
+char * fb = (char *) 0x000B8000;
 
 /* colour table for foreground and background
 * Colour,   Value 
@@ -24,9 +21,7 @@ extern char * fb;
 * Light brown,   14
 * White,         15
 */
-enum fb_colour { BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHT_GREY,
-	DARK_GREY, LIGHT_BLUE, LIGHT_GREEN, LIGHT_CYAN, 
-	LIGHT_RED, LIGHT_MAGENTA, LIGHT_BROWN, WHITE }; 
+
 
 /** fb_write_cell:
 *  Writes a character with the given foreground and background to position i
@@ -37,6 +32,22 @@ enum fb_colour { BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHT_GREY,
 *  @param fg The foreground color
 *  @param bg The background color
 */
-void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg);
+void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
+{
+	fb[i] = c;
+	fb[i + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
+}
 
-#endif /* FB_H */
+/** fb_clear:
+*  Clears out the frame buffer with spaces
+*  @param bg The background color
+*/
+void fb_clear(unsigned char bg)
+{
+	//fb is 80 columns by 25 rows
+	int i, fb_size = 80 * 50;
+	for (i = 0; i < fb_size; i++) {
+		//write space
+		fb_write_cell(i, '@', bg, bg);
+	}
+}
