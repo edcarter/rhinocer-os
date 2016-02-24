@@ -1,4 +1,5 @@
 global loader                                 ; the entry symbol for ELF
+extern kmain                                  ; kernel main c function
 
 MAGIC_NUMBER equ 0x1BADB002                   ; define the magic number constant
 FLAGS        equ 0x0                          ; multiboot flags
@@ -15,8 +16,7 @@ align 4                                       ; the code must be 4 byte aligned
 
 loader:                                       ; the loader label (defined as entry point in linker script)
     mov esp, kernel_stack + KERNEL_STACK_SIZE ; set stack pointer to initialized space
-.loop:      
-    jmp .loop                                 ; loop forever
+    call kmain                                ; call kernel main
 
 section .bss
 align 4
