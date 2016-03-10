@@ -32,8 +32,9 @@ char * fb = (char *) 0x000B8000;
 *  @param fg The foreground color
 *  @param bg The background color
 */
-void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
+void fb_write_cell(unsigned int i, char c, unsigned char bg, unsigned char fg)
 {
+	i = i * 2;  //each cell is 16 bits
 	fb[i] = c;
 	fb[i + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
 }
@@ -45,9 +46,17 @@ void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
 void fb_clear(unsigned char bg)
 {
 	//fb is 80 columns by 25 rows
-	int i, fb_size = 80 * 50;
+	unsigned int i, fb_size = 80 * 50;
 	for (i = 0; i < fb_size; i++) {
 		//write space
-		fb_write_cell(i, '@', bg, bg);
+		fb_write_cell(i, ' ', bg, bg);
+	}
+}
+
+void fb_write_string(unsigned int i, char * str, unsigned char bg, unsigned char fg) {
+	unsigned int index, fb_size = 80 * 50;
+	for (index = 0; index < fb_size - i; index++) {
+		if (str[index] == 0) break; //end of string
+		fb_write_cell(i + index, str[index], fg, bg);
 	}
 }
