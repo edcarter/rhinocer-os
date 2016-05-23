@@ -56,4 +56,19 @@ void fb_clear(unsigned char bg);
 */
 void fb_write_string(unsigned int i, char * str, unsigned char fg, unsigned char bg);
 
+/** outb:
+*  Sends the given data to the given I/O port. Defined in outb.s
+*
+*  @param port The I/O port to send the data to
+*  @param data The data to send to the I/O port
+*/
+void outb(unsigned short port, unsigned char data);
+
+/** fb_move_cursor:
+*  Moves the cursor of the framebuffer to the given position
+*
+*  @param pos The new position of the cursor
+*/
+void fb_move_cursor(unsigned short pos);
+
 #endif /* FB_H */
