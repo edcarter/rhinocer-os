@@ -15,8 +15,6 @@ os.iso: kernel.elf
 	cp kernel.elf ../iso/boot/
 	cd ../iso && ./geniso.sh
 
-
-
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
