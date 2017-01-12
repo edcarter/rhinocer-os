@@ -61,6 +61,15 @@ void fb_clear(unsigned char bg)
 	}
 }
 
+/** fb_write_cell:
+*  Writes a string with the given foreground and background to position i
+*  in the framebuffer.
+*
+*  @param i    The location in the framebuffer
+*  @param str  The string to write
+*  @param fg   The foreground color
+*  @param bg   The background color
+*/
 void fb_write_string(unsigned int i, char * str, unsigned char bg, unsigned char fg) {
 	unsigned int index, fb_size = 80 * 50;
 	for (index = 0; index < fb_size - i; index++) {
