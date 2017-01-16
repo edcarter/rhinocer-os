@@ -33,4 +33,4 @@ run: os.iso
 	cd ../bochs/ && ./run_bochs.sh
 
 clean:
-	rm -f -r *.o kernel.elf ../iso/os.iso ../bochs/bochslog.txt
+	rm -f -r *.o kernel.elf ../iso/os.iso ../bochs/bochslog.txt ../iso/boot/kernel.elf
