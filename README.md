@@ -19,18 +19,18 @@ sudo apt-get install nasm gcc bochs bochs-x -y
 
 To compile:
 ```
-cd /rhinocer-os/src
+cd rhinocer-os/src
 make
 ```
 
 To run on the Bochs emulator:
 ```
-cd /rhinocer-os/src
+cd rhinocer-os/src
 make run
 ```
 
 To cleanup temporary files:
 ```
-cd /rhinocer-os/src
+cd rhinocer-os/src
 make clean
 ```
