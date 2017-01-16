@@ -54,7 +54,7 @@ void fb_clear(unsigned char bg);
 *  @param fg The foreground color
 *  @param bg The background color
 */
-void fb_write_string(unsigned int i, char * str, unsigned char fg, unsigned char bg);
+int fb_write_string(unsigned int i, const char * str, unsigned int len, unsigned char fg, unsigned char bg);
 
 /** fb_move_cursor:
 *  Moves the cursor of the framebuffer to the given position
@@ -62,5 +62,15 @@ void fb_write_string(unsigned int i, char * str, unsigned char fg, unsigned char
 *  @param pos The new position of the cursor
 */
 void fb_move_cursor(unsigned short pos);
+
+/** fb_write:
+*  Write to the framebuffer and advance the cursor
+*  using the default background and foreground colours
+*
+*  @param buf The buffer holding charcters to write
+*  @param len Number of characters to write
+*  @return Number of characters written, -1 on error
+*/
+int fb_write(const char * buf, unsigned int len);
 
 #endif /* FB_H */

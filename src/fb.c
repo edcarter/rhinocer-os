@@ -1,7 +1,15 @@
 #include "fb.h"
 #include "io.h"
 
+unsigned short _cursor_position = 0;
+unsigned char _default_bg = BLACK;
+unsigned char _default_fg = WHITE;
+
 char * fb = (char *) 0x000B8000;
+
+/* Frame Buffer Dimensions */
+#define FB_WIDTH    80
+#define FB_HEIGHT   25
 
 /* The I/O ports */
 #define FB_COMMAND_PORT         0x3D4
@@ -60,6 +68,7 @@ void fb_clear(unsigned char bg)
 		//write space
 		fb_write_cell(i, ' ', bg, bg);
 	}
+	fb_move_cursor(0);
 }
 
 /** fb_write_cell:
@@ -68,15 +77,19 @@ void fb_clear(unsigned char bg)
 *
 *  @param i    The location in the framebuffer
 *  @param str  The string to write
+*  @param len  The number of characters to write
 *  @param fg   The foreground color
 *  @param bg   The background color
+*  @return     Number of characters written
 */
-void fb_write_string(unsigned int i, char * str, unsigned char bg, unsigned char fg) {
-	unsigned int index, fb_size = 80 * 50;
+int fb_write_string(unsigned int i, const char * str, unsigned int len, unsigned char bg, unsigned char fg) {
+	unsigned int index, fb_size = FB_WIDTH * FB_HEIGHT;
 	for (index = 0; index < fb_size - i; index++) {
-		if (str[index] == 0) break; //end of string
+		if (str[index] == 0) break;
+		if (index >= len) break;
 		fb_write_cell(i + index, str[index], fg, bg);
 	}
+	return (int) index;
 }
 
 /** fb_move_cursor:
@@ -90,4 +103,20 @@ void fb_move_cursor(unsigned short pos)
 	outb(FB_DATA_PORT,    ((pos >> 8) & 0x00FF));
 	outb(FB_COMMAND_PORT, FB_LOW_BYTE_COMMAND);
 	outb(FB_DATA_PORT,    pos & 0x00FF);
+	_cursor_position = pos;
+}
+
+/** fb_write:
+*  Write to the framebuffer and advance the cursor
+*  using the default background and foreground colours
+*
+*  @param buf The buffer holding charcters to write
+*  @param len Number of characters to write
+*  @return Number of characters written, -1 on error
+*/
+int fb_write(const char * buf, unsigned int len)
+{
+	int written = fb_write_string((unsigned int) _cursor_position, buf, len, _default_bg, _default_fg);
+	fb_move_cursor(_cursor_position + written - 1);
+	return written; 
 }
