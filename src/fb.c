@@ -1,4 +1,5 @@
 #include "fb.h"
+#include "io.h"
 
 char * fb = (char *) 0x000B8000;
 
