@@ -7,6 +7,9 @@ I followed the littleosbook guide on setting up the development environment. The
 You will need the Bochs x86 emulator to run the OS.
 http://bochs.sourceforge.net/
 
+### Compiler/ Assembler
+GCC and NASM are used to generate object files. LD is used to link them.
+
 ### Compiling and Running
 
 To compile:
