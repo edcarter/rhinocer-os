@@ -12,6 +12,11 @@ GCC and NASM are used to generate object files. LD is used to link them.
 
 ### Compiling and Running
 
+To install dependencies on Ubuntu:
+```
+sudo apt-get install nasm gcc bochs bochs-x -y
+```
+
 To compile:
 ```
 cd /rhinocer-os/src
